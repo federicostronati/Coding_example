@@ -4,7 +4,7 @@ program import_almalaurea
 clear all
 
 args anno tipo anni_dalla_laurea ateneo
-*nota: si può sempre usare 1 2 3 4
+*note: can still use numbers 1 2 3 4
 
 // Import .csv  
 import delimited using "${data_raw}\\`ateneo'\\`anno'\\`anno'_`tipo'_`3'.csv", varnames(2)
@@ -40,11 +40,11 @@ qui foreach var of varlist _all {
     }
 }
 
-**nota1: "," cambiate in "." per far capire a Stata che quelli sono numeri (i.e. 0,95 in 0.95). 
-**nota2: "-" nel dataset orig. indicano missing values, pertanto cambiati in "."
-**nota3: "*" presenti nel dataset del 2015 indica che le statistiche non sono 
-// calcolate perché riferite ad un collettivo poco numeroso (inferiore a 5 unità)
-// - fonte note metodologiche 2015. Li ho trattati come missing values.
+**note1: "," changed in "." to tell Stata those are numbers and not string values (i.e. 0,95 in 0.95). 
+**note2: "-" original dataset those are missing values, thus changed in "."
+**note3: "*" spotted in some dataset: tells that those stats are not evaluated 
+// because sample size too little (< 5 units)
+// I treated them as missing values.
 
 //Drop rows with (only) missing values 
 foreach var of varlist _all  {
@@ -53,8 +53,6 @@ foreach var of varlist _all  {
 	}
 }
 * display "`myvars'"
-
-
 
 egen miss = rowtotal(`myvars'), missing
 drop if missing(miss)
@@ -153,7 +151,7 @@ sxpose2, clear firstname varname  destring force
 rename _varname ClasseLaurea
 
 ********************************************************************************
-//Rename to have a common name across datasets **ULTIMA MODIFICA DEL 05.07
+//Rename to have a common name across datasets
 
 if `1'==2015 {
 	rename Autonomoeffettivo Autonomo
